@@ -18,6 +18,8 @@ RUN go build -o $GOPATH/bin/verifypass github.com/vivshankar/verifypass-go/cmd/v
 
 FROM registry.access.redhat.com/ubi8/ubi-minimal
 
+ENV GO111MODULE=on
+
 COPY --from=builder /go/bin/verifypass /usr/local/bin/
 COPY --from=builder /go/src/verifypass-go/public ./public/
 
