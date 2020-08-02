@@ -1,32 +1,28 @@
-FROM registry.access.redhat.com/ubi8/ubi
+FROM registry.access.redhat.com/ubi8/go-toolset as builder
 
-RUN yum -y install --disableplugin=subscription-manager wget git \
-    && yum --disableplugin=subscription-manager clean all
-
-# Grab go version 1.13
-RUN wget https://dl.google.com/go/go1.13.3.linux-amd64.tar.gz
-
-# Install go version 1.13
-RUN tar -C /usr/local -xzf go1.13.3.linux-amd64.tar.gz
+USER root
 
 # Setup go environment variables
 ENV GOPATH /go
 ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
 
-# Configure application working directories
-RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && chmod -R 777 "$GOPATH"
-
 # Change working directory
-WORKDIR $GOPATH/src/goginapp/
+WORKDIR $GOPATH/src/verifypass-go/
 
 # Install dependencies
 ENV GO111MODULE=on
 COPY . ./
 RUN if test -e "go.mod"; then go build ./...; fi
 
+RUN go build -o $GOPATH/bin/verifypass github.com/vivshankar/verifypass-go/cmd/verifypass
+
+FROM registry.access.redhat.com/ubi8/ubi-minimal
+
+COPY --from=builder /go/bin/verifypass /usr/local/bin/
+COPY --from=builder /go/src/verifypass-go/public ./public/
+
 ENV PORT 8080
 ENV GIN_MODE release
 EXPOSE 8080
 
-RUN go build -o /usr/local/bin/verifypass github.com/vivshankar/verifypass-go/cmd/verifypass
 CMD ["verifypass"]
