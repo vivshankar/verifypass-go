@@ -28,5 +28,5 @@ ENV PORT 8080
 ENV GIN_MODE release
 EXPOSE 8080
 
-RUN go build -o app github.com/vivshankar/verifypass-go/cmd/verifypass
-CMD ["./app"]
+RUN go build -o /usr/local/bin/verifypass github.com/vivshankar/verifypass-go/cmd/verifypass
+CMD ["verifypass"]
