@@ -1,12 +1,13 @@
 package main
 
 import (
-	"github.com/IBM/go-gin-app/routers"
+	"github.com/vivshankar/verifypass-go/app/routers"
 	// "goginapp/plugins" if you create your own plugins import them here
+	"os"
+
 	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
-	"os"
 )
 
 func port() string {

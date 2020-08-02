@@ -29,11 +29,11 @@ image-name-run : "verifypassgo-go-run"
 image-name-tools : "verifypassgo-go-tools"
 
 # The command to build the code and docker image for RUN
-build-cmd-run : "go build"
+build-cmd-run : "go build github.com/vivshankar/verifypass-go/cmd/verifypass"
 # The command to execute tests for the code in the tools container
 test-cmd : "go test ./..."
 # The command to build the code and docker image for DEBUG
-build-cmd-debug : "go build"
+build-cmd-debug : "go build github.com/vivshankar/verifypass-go/cmd/verifypass"
 
 # The command to run the code in the run container
 run-cmd : ""
