@@ -1,0 +1,45 @@
+{{template "header.tmpl" .}}
+
+<div class="bx--row profile-content">
+	<div class="ci--table-container bx--col">
+        <div id="tab-panel-1-default" class="profile-content-tab" role="tabpanel"
+				aria-labelledby="tab-link-1-default" aria-hidden="false">
+				<div>
+					<div class="bx--data-table-container">
+						<div class="bx--data-table-header">
+							<p class="bx--data-table-header__description">Display Name: {{index .user "displayName"}}</p>
+						</div>
+						<table class="bx--data-table bx--data-table--no-border">
+							<thead>
+								<tr class="tab-dataTable-row">
+									<th scope="col"><span class="bx--table-header-label">Attribute</span></th>
+                                    <th scope="col"><span class="bx--table-header-label">Value</span></th>
+								</tr>
+							</thead>
+							<tbody aria-live="polite">
+                                <tr>
+									<td>Given name</td>
+                                    <td>{{index .user "givenName"}}</td>
+								</tr>
+                                <tr>
+									<td>Family name</td>
+                                    <td>{{index .user "familyName"}}</td>
+								</tr>
+                                <tr>
+									<td>Email</td>
+                                    <td>{{index .user "email"}}</td>
+								</tr>
+                                <tr>
+									<td>Mobile Number</td>
+                                    <td>{{index .user "mobile"}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+        </div>
+    </div>
+</div>
+
+{{template "footer.tmpl" .}}

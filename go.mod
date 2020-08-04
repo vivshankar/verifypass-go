@@ -11,6 +11,8 @@ require (
 	github.com/sirupsen/logrus v1.0.6
 	github.com/stretchr/testify v1.4.0 // indirect
 	github.com/ugorji/go v1.1.1 // indirect
+	golang.org/x/oauth2 v0.0.0-20200107190931-bf48bf16ab8d
+	google.golang.org/appengine v1.4.0
 	gopkg.in/airbrake/gobrake.v2 v2.0.9 // indirect
 	gopkg.in/gemnasium/logrus-airbrake-hook.v2 v2.1.2 // indirect
 	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect

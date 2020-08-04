@@ -1,0 +1,45 @@
+{{template "header.tmpl" .}}
+
+<div class="bx--data-table-header">
+    <div class="bx--form-item bx--checkbox-wrapper">
+        <input id="bx--checkbox-consent" class="bx--checkbox" type="checkbox" value={{ .purposeid }} name="checkbox">
+        <label for="bx--checkbox-consent" class="bx--checkbox-label">I agree to the &nbsp;&nbsp;<a href={{ .eulalink }} target="_blank">{{ .eulaName }}</a></label>
+    </div>
+    <div class="bx--form-item" style="padding-top:2em;">
+        <button class="bx--btn bx--btn--primary" type="button" id="post-btn">Submit</button>
+    </div>
+</div>
+
+<script type="text/javascript">
+    const button = document.getElementById('post-btn');
+    const chk = document.getElementById('bx--checkbox-consent');
+
+    button.addEventListener('click', async _ => {
+
+        if (!chk.checked) {
+            return
+        }
+
+        button.disabled = true;
+        try {     
+            const response = await fetch('/api/eula/consent', {
+                method: 'post',
+                body: JSON.stringify({
+                    "purposeId": {{ .purposeId }}
+                })
+            });
+            
+            if (response.status == 200) {
+                location.href = "/";
+            } else {
+                console.error("Unable to save consent");
+            }
+        } catch(err) {
+            console.error(`Error: ${err}`);
+        }
+
+        button.disabled = false;
+    });
+</script>
+
+{{template "footer.tmpl" .}}

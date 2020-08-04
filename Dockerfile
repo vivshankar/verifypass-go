@@ -21,7 +21,7 @@ FROM registry.access.redhat.com/ubi8/ubi-minimal
 ENV GO111MODULE=on
 
 COPY --from=builder /go/bin/verifypass /usr/local/bin/
-COPY --from=builder /go/src/verifypass-go/public ./public/
+COPY --from=builder /go/src/verifypass-go/web ./web/
 
 ENV PORT 8080
 ENV GIN_MODE release

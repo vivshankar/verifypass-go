@@ -1,0 +1,91 @@
+{{template "header.tmpl" .}}
+
+<div class="bx--row profile-content">
+	<div class="ci--table-container bx--col">
+        <div id="tab-panel-1-default" class="profile-content-tab" role="tabpanel"
+				aria-labelledby="tab-link-1-default" aria-hidden="false">
+				<div>
+					<div class="bx--data-table-container">
+						<div class="bx--data-table-header">
+							<p class="bx--data-table-header__description">This is the list of consents. Some of these may already be inactive.</p>
+						</div>
+						<table class="bx--data-table bx--data-table--no-border">
+							<thead>
+								<tr class="tab-dataTable-row">
+									<th scope="col"><span class="bx--table-header-label">Purpose of use</span></th>
+                                    <th scope="col"><span class="bx--table-header-label">Attribute</span></th>
+									<th scope="col" style="text-align:center;"><span class="bx--table-header-label">Version</span></th>
+                                    <th scope="col"><span class="bx--table-header-label">Access type</span></th>
+                                    <th scope="col"><span class="bx--table-header-label">Expires On</span></th>
+                                    <th scope="col"><span class="bx--table-header-label">Consent</span></th>
+								</tr>
+							</thead>
+							<tbody aria-live="polite">
+                                {{range .consents}}
+								<tr>
+									<td>{{.PurposeName}}</td>
+                                    <td>{{.AttributeName}}</td>
+                                    <td style="text-align:center;">{{.Version}}</td>
+                                    <td>{{.AccessTypeName}}</td>
+                                    <td>{{.Expires}}</td>
+                                    <td>
+                                        <input class="bx--toggle-input bx--toggle-input--small" id={{.ID}} type="checkbox" name="consentToggle" {{if .Consented}} checked {{ end }}>
+                                        <label class="bx--toggle-input__label" for={{.ID}}
+                                            aria-label="Enable to consent">
+                                            <span class="bx--toggle__switch">
+                                            <svg class="bx--toggle__check" width="6px" height="5px" viewBox="0 0 6 5">
+                                                <path d="M2.2 2.7L5 0 6 1 2.2 5 0 2.7 1 1.5z" />
+                                            </svg>
+                                            <span class="bx--toggle__text--off" aria-hidden="true">Off</span>
+                                            <span class="bx--toggle__text--on" aria-hidden="true">On</span>
+                                            </span>
+                                        </label>
+                                    </td>
+								</tr>
+                                {{end}}
+							</tbody>
+						</table>
+                        <div class="bx--data-table-header">
+							<button class="bx--btn bx--btn--primary" type="button" id="post-btn">Update</button>
+						</div>
+					</div>
+				</div>
+			</div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    const button = document.getElementById('post-btn');
+    const toggles = document.getElementsByName('consentToggle');
+
+    button.addEventListener('click', async _ => {
+
+        button.disabled = true;
+        try {
+
+            var body = {};
+            for(i = 0;i < toggles.length; i++)
+            {
+                body[toggles[i].id] = toggles[i].checked ? true : false
+            }
+
+            const response = await fetch('/api/consents?callback=' + {{ .callback }}, {
+                method: 'post',
+                body: JSON.stringify(body)
+            });
+            
+            if (response.status == 200) {
+                location.href = {{ .callback }};
+            } else {
+                console.error("Unable to save consent");
+            }
+        } catch(err) {
+            console.error(`Error: ${err}`);
+        }
+
+        button.disabled = false;
+    });
+</script>
+
+{{template "footer.tmpl" .}}

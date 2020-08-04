@@ -1,0 +1,33 @@
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<link rel="icon" href="/img/favicon.ico">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<meta name="theme-color" content="#000000">
+	<meta name="description" content="VerifyPass application">
+	<title>{{ .title }}</title>
+	
+	<link href="https://unpkg.com/carbon-components/css/carbon-components.min.css" rel="stylesheet">
+	<script src="https://unpkg.com/carbon-components/scripts/carbon-components.min.js"></script>
+	<link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/vs2015.min.css">
+	<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
+	<link rel='stylesheet' href='/static/overrides.css' />
+</head>
+
+<body class="bx--body">
+	<div id="root">
+		<div>
+			<header aria-label="Keviv Foundry" class="bx--header" role="banner"><a class="bx--skip-to-content"
+					href="#main-content" tabindex="0">Skip to main content</a><a class="bx--header__name" href="/"><span
+						class="bx--header__name--prefix">Keviv</span>&nbsp;Foundry</a></header>
+            <main class="bx--content bx__global-content">
+                <div class="bx--grid landing-page">
+                    <div class="bx--row landing-page__banner">
+                        <div class="bx--col">
+                            <h2 class="landing-page__heading">{{ .title }}</h2>
+                        </div>
+                        <div class="bx--col">{{if .isLoggedIn}}<a href="/session/logout" tabindex="0" class="button-logout bx--btn bx--btn--secondary">Sign out</a>{{end}}
+                        </div>
+                    </div>
