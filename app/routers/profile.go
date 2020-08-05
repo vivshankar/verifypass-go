@@ -24,7 +24,7 @@ func Profile(c *gin.Context) {
 			PurposeID:    config.ProfilePurposeID,
 			AccessTypeID: config.ReadAccessType,
 		},
-	}, "/profile")
+	}, "/profile", "Consent for Profile Display")
 
 	if err != nil {
 		log.Errorf("DUA check could not complete; %v", err)

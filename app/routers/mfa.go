@@ -24,7 +24,7 @@ func MFA(c *gin.Context) {
 			PurposeID:    config.MFAPurposeID,
 			AccessTypeID: config.NotifyAccessType,
 		},
-	}, "/mfa")
+	}, "/mfa", "Consent for Multi-factor Authentication")
 
 	if err != nil {
 		log.Errorf("DUA check could not complete; %v", err)

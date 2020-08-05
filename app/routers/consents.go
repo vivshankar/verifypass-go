@@ -132,6 +132,7 @@ func RecordConsents(c *gin.Context) {
 func preprocessDSP(r *dpcm.DSPResponse, scope []string) []*ConsentView {
 
 	var consentViewMap map[string]*ConsentView = make(map[string]*ConsentView)
+	var consentViews []*ConsentView = make([]*ConsentView, 0)
 
 	if scope[0] != "all" {
 		// Extract the fragments
@@ -152,6 +153,7 @@ func preprocessDSP(r *dpcm.DSPResponse, scope []string) []*ConsentView {
 			}
 
 			consentViewMap[item] = view
+			consentViews = append(consentViews, view)
 		}
 	} else {
 		// Just iterate through all purposes, attributes and access types
@@ -172,6 +174,7 @@ func preprocessDSP(r *dpcm.DSPResponse, scope []string) []*ConsentView {
 					}
 
 					consentViewMap[key] = view
+					consentViews = append(consentViews, view)
 				}
 			} else {
 
@@ -192,6 +195,7 @@ func preprocessDSP(r *dpcm.DSPResponse, scope []string) []*ConsentView {
 						}
 
 						consentViewMap[key] = view
+						consentViews = append(consentViews, view)
 					}
 				}
 			}
@@ -219,11 +223,6 @@ func preprocessDSP(r *dpcm.DSPResponse, scope []string) []*ConsentView {
 		}
 	}
 
-	var consentViews []*ConsentView
-	for _, v := range consentViewMap {
-		consentViews = append(consentViews, v)
-	}
-
 	return consentViews
 }
 
@@ -237,7 +236,7 @@ func splitScope(item string) (string, string, string) {
 	return purpose, attributeID, accessTypeID
 }
 
-func checkForDUA(c *gin.Context, token string, items []*dpcm.DUAItem, callback string) (bool, error) {
+func checkForDUA(c *gin.Context, token string, items []*dpcm.DUAItem, callback string, title string) (bool, error) {
 
 	req := &dpcm.DUARequest{
 		Items: items,
@@ -269,7 +268,11 @@ func checkForDUA(c *gin.Context, token string, items []*dpcm.DUAItem, callback s
 
 	if len(scopes) > 0 {
 		qs := strings.Join(scopes, ",")
-		c.Redirect(http.StatusTemporaryRedirect, fmt.Sprintf("/consents?callback=%s&scope=%s", callback, url.QueryEscape(qs)))
+		if title == "" {
+			title = "My consents"
+		}
+
+		c.Redirect(http.StatusTemporaryRedirect, fmt.Sprintf("/consents?callback=%s&scope=%s&title=%s", callback, url.QueryEscape(qs), title))
 		return false, nil
 	}
 

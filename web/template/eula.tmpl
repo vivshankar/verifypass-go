@@ -1,6 +1,10 @@
 {{template "header.tmpl" .}}
 
 <div class="bx--data-table-header">
+    <div>
+        <p class="landing-page__p">The user has never consented to this EULA document or the consent may have expired. Verify indicates this to the application
+            and the application prompts the user to consent.</p>
+    </div>
     <div class="bx--form-item bx--checkbox-wrapper">
         <input id="bx--checkbox-consent" class="bx--checkbox" type="checkbox" value={{ .purposeid }} name="checkbox">
         <label for="bx--checkbox-consent" class="bx--checkbox-label">I agree to the &nbsp;&nbsp;<a href={{ .eulalink }} target="_blank">{{ .eulaName }}</a></label>
