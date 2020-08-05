@@ -81,21 +81,12 @@ func DUA(token string, r *DUARequest) ([]DUAResponseItem, error) {
 		return nil, err
 	}
 
-	var duaRespItem DUAResponseItem
+	//var duaRespItem DUAResponseItem
 	var duaResp []DUAResponseItem
 
-	if len(r.Items) < 2 {
-		err = json.Unmarshal(body, &duaRespItem)
-		if err != nil {
-			log.Errorf("Unable to decode response; body = %v, error %v", string(body), err)
-		}
-
-		duaResp = []DUAResponseItem{duaRespItem}
-	} else {
-		err = json.Unmarshal(body, &duaResp)
-		if err != nil {
-			log.Errorf("Unable to decode response; body = %v, error %v", string(body), err)
-		}
+	err = json.Unmarshal(body, &duaResp)
+	if err != nil {
+		log.Errorf("Unable to decode response; body = %v, error %v", string(body), err)
 	}
 
 	return duaResp, err
