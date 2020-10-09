@@ -69,6 +69,28 @@ type ConsentsResponse struct {
 
 func BulkCreateConsents(token string, r []*Consent) error {
 
+	if len(r) < 10 {
+		return createConsents(token, r)
+	}
+
+	chunkSize := 10
+	for i := 0; i < len(r); i += chunkSize {
+		end := i + chunkSize
+
+		if end > len(r) {
+			end = len(r)
+		}
+
+		divided := r[i:end]
+		log.Infof("Attempting create consents for %v", divided)
+		createConsents(token, divided)
+	}
+
+	return nil
+}
+
+func createConsents(token string, r []*Consent) error {
+
 	var ops []*ConsentOp = make([]*ConsentOp, len(r))
 	for i, val := range r {
 		// Hack for bug with null EndTime
