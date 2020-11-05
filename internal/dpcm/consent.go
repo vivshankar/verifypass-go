@@ -7,7 +7,6 @@ import (
 	"io"
 	"io/ioutil"
 	"net/http"
-	"strconv"
 	"time"
 
 	log "github.com/sirupsen/logrus"
@@ -54,8 +53,8 @@ type Consent struct {
 	AccessTypeID   string `json:"accessTypeId"`
 	AccessTypeName string `json:"accessTypeName,omitempty"`
 	State          int    `json:"state"`
-	StartTime      string `json:"startTime,omitempty"`
-	EndTime        string `json:"endTime,omitempty"`
+	StartTime      int64  `json:"startTime,omitempty"`
+	EndTime        int64  `json:"endTime,omitempty"`
 }
 
 type ConsentOp struct {
@@ -95,7 +94,7 @@ func createConsents(token string, r []*Consent) error {
 	for i, val := range r {
 		// Hack for bug with null EndTime
 		// TODO: Remember to remove this
-		val.EndTime = strconv.FormatInt(time.Now().AddDate(0, 0, 1).Unix(), 10)
+		val.EndTime = time.Now().AddDate(0, 0, 1).Unix()
 
 		ops[i] = &ConsentOp{
 			Op:    "add",

@@ -57,7 +57,7 @@ type Purpose struct {
 	SimilarToVersion     int                  `json:"similarToVersion"`
 	Tags                 []string             `json:"tags"`
 	Category             string               `json:"category"`
-	LastModifiedTime     string               `json:"lastModifiedTime"`
+	LastModifiedTime     int64                `json:"lastModifiedTime"`
 	Terms                *TermsOfUse          `json:"termsOfUse"`
 	DisableDeleteConsent bool                 `json:"disableDeleteConsent"`
 	DataCount            int                  `json:"dataCount"`

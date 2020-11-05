@@ -2,7 +2,6 @@ package routers
 
 import (
 	"net/http"
-	"strconv"
 	"time"
 
 	"github.com/vivshankar/verifypass-go/internal/dpcm"
@@ -62,7 +61,7 @@ func RecordEULAConsent(c *gin.Context) {
 		PurposeID:    body["purposeId"].(string),
 		AccessTypeID: config.EULAAccessType,
 		State:        dpcm.ConsentStateAllow,
-		EndTime:      strconv.FormatInt(time.Now().AddDate(0, 0, 1).Unix(), 10),
+		EndTime:      time.Now().AddDate(0, 0, 1).Unix(),
 	}
 
 	err = dpcm.CreateConsent(token, consent)
